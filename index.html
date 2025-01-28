@@ -6,13 +6,24 @@
   <title>HIROKIT</title>
   <style>
     body {
+      font-family: monospace;
       margin: 0;
       background: black;
+      color: #0F0;
+      min-height: 100vh;
       overflow: hidden;
     }
+
     canvas {
-      display: block;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.5;
     }
+
     .social-board {
       position: fixed;
       right: 20px;
@@ -25,6 +36,7 @@
       font-family: monospace;
       z-index: 2;
       box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+      width: min(300px, calc(100% - 80px));
     }
     .profile-image {
       width: 120px;
@@ -113,8 +125,6 @@
         left: 50%;
         transform: translateX(-50%);
         margin: 0;
-        max-width: 80%;
-        width: calc(100% - 40px);
       }
 
       .side-menu {
@@ -122,25 +132,7 @@
         left: auto;
         top: auto;
         margin: 20px auto;
-        width: 80%;
-      }
-
-      body {
-        padding: 20px;
-        overflow-y: auto;
-        padding-bottom: calc(100vh - 40px);  /* プロフィールボード分の余白を確保 */
-      }
-
-      canvas {
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 0;
-      }
-
-      .menu-button {
-        width: 100%;
-        box-sizing: border-box;
+        width: min(300px, 80%);
       }
     }
 
@@ -184,125 +176,72 @@
 
   <script>
     const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d', { alpha: false });
-    const socialBoard = document.querySelector('.social-board');
-
-    // フレームレート制御の設定
-    const FPS = 60;
-    const FRAME_INTERVAL = 1000 / FPS;
-    let lastFrameTime = 0;
+    const ctx = canvas.getContext('2d');
 
     function resizeCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        const dpr = window.devicePixelRatio || 1;
-        canvas.style.width = `${canvas.width}px`;
-        canvas.style.height = `${canvas.height}px`;
-        canvas.width *= dpr;
-        canvas.height *= dpr;
-        ctx.scale(dpr, dpr);
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     }
     resizeCanvas();
 
-    const boardRect = {
-        x: 0,
-        y: 0,
-        width: 0,
-        height: 0
-    };
-
-    function updateBoardRect() {
-        const rect = socialBoard.getBoundingClientRect();
-        boardRect.x = rect.left;
-        boardRect.y = rect.top;
-        boardRect.width = rect.width;
-        boardRect.height = rect.height;
-    }
-    updateBoardRect();
-
-    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+    const chars = "01".split("");
     const fontSize = 14;
     const columns = Math.floor(canvas.width / fontSize);
     const drops = new Array(columns).fill(1);
 
     function drawCenterLogo() {
-        ctx.save();
-        ctx.fillStyle = 'rgba(0, 40, 0, 0.6)';
-        
-        // スマホ表示時はフォントサイズを調整
-        const fontSize = window.innerWidth <= 768 ? '60px' : '120px';
-        ctx.font = `bold ${fontSize} "Arial Black", Arial, sans-serif`;
-        
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        
-        ctx.shadowColor = 'rgba(0, 255, 0, 0.2)';
-        ctx.shadowBlur = 15;
-        
-        const centerX = canvas.width / (2 * window.devicePixelRatio);
-        const centerY = canvas.height / (2 * window.devicePixelRatio);
-        
-        ctx.fillText('HIROKIT', centerX, centerY);
-        ctx.restore();
+      ctx.save();
+      ctx.fillStyle = 'rgba(0, 40, 0, 0.6)';
+      
+      const fontSize = window.innerWidth <= 768 ? '60px' : '120px';
+      ctx.font = `bold ${fontSize} "Arial Black", Arial, sans-serif`;
+      
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      
+      ctx.shadowColor = 'rgba(0, 255, 0, 0.2)';
+      ctx.shadowBlur = 15;
+      
+      const centerX = canvas.width / 2;
+      const centerY = canvas.height / 2;
+      
+      ctx.fillText('HIROKIT', centerX, centerY);
+      ctx.restore();
     }
 
-    let animationId;
-    function draw(currentTime) {
-        // フレームレート制御
-        if (lastFrameTime === 0) lastFrameTime = currentTime;
-        const elapsed = currentTime - lastFrameTime;
-        
-        if (elapsed < FRAME_INTERVAL) {
-            animationId = requestAnimationFrame(draw);
-            return;
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      drawCenterLogo();
+
+      ctx.fillStyle = '#0F0';
+      ctx.font = fontSize + 'px monospace';
+
+      for (let i = 0; i < drops.length; i++) {
+        if (i % 5 !== 0) continue;
+        const text = chars[Math.floor(Math.random() * chars.length)];
+        const x = i * fontSize;
+        ctx.fillText(text, x, drops[i] * fontSize);
+
+        if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+          drops[i] = 0;
         }
-        lastFrameTime = currentTime;
-
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        drawCenterLogo();
-
-        ctx.fillStyle = '#0F0';
-        ctx.font = fontSize + 'px monospace';
-
-        for (let i = 0; i < drops.length; i++) {
-            if (i % 3 !== 0) continue;
-
-            const text = chars[Math.floor(Math.random() * chars.length)];
-            const x = i * fontSize;
-            ctx.fillText(text, x, drops[i] * fontSize);
-
-            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
-            }
-            drops[i]++;
-        }
-
-        animationId = requestAnimationFrame(draw);
+        drops[i]++;
+      }
     }
 
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            cancelAnimationFrame(animationId);
-            lastFrameTime = 0;
-        } else {
-            requestAnimationFrame(draw);
-        }
-    });
+    setInterval(draw, 50);
 
     let resizeTimeout;
     window.addEventListener('resize', () => {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            resizeCanvas();
-            drops.length = Math.floor(canvas.width / fontSize);
-            drops.fill(1);
-            updateBoardRect();
-        }, 250);
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        resizeCanvas();
+        drops.length = Math.floor(canvas.width / fontSize);
+        drops.fill(1);
+      }, 100);
     });
-
-    requestAnimationFrame(draw);
   </script>
 </body>
 </html>

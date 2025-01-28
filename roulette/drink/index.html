@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>お酒ルーレット - hirokit.dev</title>
+    <title>お酒ルーレット - HIROKIT</title>
     <style>
         body {
             font-family: monospace;
@@ -26,7 +26,7 @@
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
             z-index: 2;
-            max-width: 90%;
+            width: min(90%, 600px);
             margin: 20px;
         }
 
@@ -108,6 +108,7 @@
             width: 100%;
             height: 100%;
             z-index: 1;
+            opacity: 0.5;
         }
 
         /* レスポンシブデザイン */
@@ -187,30 +188,44 @@
         }
         resizeCanvas();
 
-        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
+        const chars = "01".split("");  // 文字数を削減
         const fontSize = 14;
         const columns = Math.floor(canvas.width / fontSize);
         const drops = new Array(columns).fill(1);
 
         function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';  // フェードアウトを遅く
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
             ctx.fillStyle = '#0F0';
             ctx.font = fontSize + 'px monospace';
 
             for (let i = 0; i < drops.length; i++) {
-                if (i % 3 !== 0) continue;
+                if (i % 5 !== 0) continue;  // 描画する文字を更に減らす
                 const text = chars[Math.floor(Math.random() * chars.length)];
                 const x = i * fontSize;
                 ctx.fillText(text, x, drops[i] * fontSize);
 
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
         }
+
+        // フレームレートを下げる
+        setInterval(draw, 50);  // 33msから50msに変更
+
+        // リサイズ処理の最適化
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                resizeCanvas();
+                drops.length = Math.floor(canvas.width / fontSize);
+                drops.fill(1);
+            }, 100);
+        });
 
         // ルーレット機能
         function spin() {
@@ -236,14 +251,6 @@
                 }
             }, 2000);
         }
-
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            drops.length = Math.floor(canvas.width / fontSize);
-            drops.fill(1);
-        });
-
-        setInterval(draw, 33);
     </script>
 </body>
 </html> 
