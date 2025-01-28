@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Q&A - HIROKIT</title>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 0;
+            background: black;
+            color: #0F0;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.5;
+        }
+
+        .chat-container {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            height: calc(100vh - 40px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chat-messages {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #0F0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .message {
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #0F0;
+            margin-left: auto;
+        }
+
+        .ai-message {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #0F0;
+            margin-right: auto;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid #0F0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .chat-input {
+            flex-grow: 1;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid #0F0;
+            border-radius: 5px;
+            color: #0F0;
+            font-family: monospace;
+        }
+
+        .send-button {
+            padding: 10px 20px;
+            background: transparent;
+            color: #0F0;
+            border: 1px solid #0F0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-button:hover {
+            background: #0F0;
+            color: black;
+        }
+
+        .home-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #0F0;
+            border: 2px solid #0F0;
+            border-radius: 5px;
+            text-decoration: none;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+            z-index: 3;
+        }
+
+        .home-button:hover {
+            background: #0F0;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <a href="/" class="home-button">HOME</a>
+    <canvas id="matrix"></canvas>
+    
+    <div class="chat-container">
+        <div class="chat-messages" id="chatMessages">
+            <div class="message ai-message">
+                何でも質問してください！
+            </div>
+        </div>
+        <div class="input-container">
+            <input type="text" class="chat-input" id="chatInput" placeholder="メッセージを入力...">
+            <button class="send-button" onclick="sendMessage()">送信</button>
+        </div>
+    </div>
+
+    <script>
+        // Matrix animation code (same as index.html)
+        const canvas = document.getElementById('matrix');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+
+        const chars = "01".split("");
+        const fontSize = 14;
+        const columns = Math.floor(canvas.width / fontSize);
+        const drops = new Array(columns).fill(1);
+
+        function draw() {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < drops.length; i++) {
+                if (i % 5 !== 0) continue;
+                const text = chars[Math.floor(Math.random() * chars.length)];
+                const x = i * fontSize;
+                ctx.fillText(text, x, drops[i] * fontSize);
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+                    drops[i] = 0;
+                }
+                drops[i]++;
+            }
+        }
+
+        setInterval(draw, 50);
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            drops.length = Math.floor(canvas.width / fontSize);
+            drops.fill(1);
+        });
+
+        // Chat functionality
+        const chatMessages = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+
+        async function sendMessage() {
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // Add user message
+            addMessage(message, 'user-message');
+            chatInput.value = '';
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message })
+                });
+
+                const data = await response.json();
+                addMessage(data.response, 'ai-message');
+            } catch (error) {
+                addMessage('申し訳ありません。エラーが発生しました。', 'ai-message');
+            }
+        }
+
+        function addMessage(text, className) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${className}`;
+            messageDiv.textContent = text;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html> 
