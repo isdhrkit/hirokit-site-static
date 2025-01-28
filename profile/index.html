@@ -92,6 +92,37 @@
                 margin: 80px 20px 20px;
             }
         }
+
+        .profile-content {
+            margin-top: 30px;
+        }
+        
+        .profile-content h2 {
+            font-size: 1.2em;
+            margin: 25px 0 15px;
+            padding-bottom: 5px;
+            border-bottom: 1px solid #0F0;
+        }
+        
+        .status-item {
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .status-item .label {
+            min-width: 100px;
+            color: #0F0;
+            opacity: 0.8;
+        }
+        
+        .about-section {
+            margin-top: 30px;
+        }
+        
+        .about-section p {
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -104,7 +135,29 @@
                 <img src="../images/profile.svg" alt="Profile">
             </div>
             <h1>HIROKIT</h1>
-            <!-- ここにプロフィール情報を追加 -->
+            <div class="profile-content">
+                <div class="status-section">
+                    <h2>SYSTEM STATUS</h2>
+                    <div class="status-item">
+                        <span class="label">ROLE:</span>
+                        <span class="value">Engineer</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">LOCATION:</span>
+                        <span class="value">Japan Tokyo</span>
+                    </div>
+                    <div class="status-item">
+                        <span class="label">SKILLS:</span>
+                        <span class="value">TypeScript / PHP / AWS / etc...</span>
+                    </div>
+                </div>
+                
+                <div class="about-section">
+                    <h2>ABOUT</h2>
+                    <p>ソフトウェアエンジニアとして活動中。<br>
+                    クラウドインフラに興味があります。</p>
+                </div>
+            </div>
         </div>
     </div>
 
