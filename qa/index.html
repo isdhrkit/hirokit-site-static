@@ -36,17 +36,6 @@
             flex-direction: column;
         }
 
-        .chat-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .chat-header h2 {
-            margin: 0;
-        }
-
         .chat-messages {
             flex-grow: 1;
             overflow-y: auto;
@@ -227,9 +216,6 @@
     <canvas id="matrix"></canvas>
     
     <div class="chat-container">
-        <div class="chat-header">
-            <h2>AI Chat</h2>
-        </div>
         <div class="chat-messages" id="chatMessages">
             <div class="message ai-message">
                 何でも質問してください！
@@ -288,6 +274,7 @@
         // Chat functionality
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
+        const messageCache = new Map(); // メッセージのキャッシュ
 
         // チャット履歴を管理する配列
         let chatHistory = [
