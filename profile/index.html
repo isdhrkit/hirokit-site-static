@@ -51,6 +51,12 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .profile-image:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
         }
 
         .profile-image img {
@@ -131,9 +137,9 @@
     
     <div class="content">
         <div class="profile-board">
-            <div class="profile-image">
+            <a href="/login" class="profile-image">
                 <img src="../images/profile.svg" alt="Profile">
-            </div>
+            </a>
             <h1>HIROKIT</h1>
             <div class="profile-content">
                 <div class="status-section">
