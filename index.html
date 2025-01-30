@@ -195,6 +195,7 @@
         }
     }
   </style>
+  <script src="/js/matrix.js"></script>
 </head>
 <body>
   <nav class="side-menu">
@@ -221,73 +222,8 @@
   </div>
 
   <script>
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    resizeCanvas();
-
-    const chars = "01".split("");
-    const fontSize = 14;
-    const columns = Math.floor(canvas.width / fontSize);
-    const drops = new Array(columns).fill(1);
-
-    function drawCenterLogo() {
-      ctx.save();
-      ctx.fillStyle = 'rgba(0, 40, 0, 0.6)';
-      
-      const fontSize = window.innerWidth <= 768 ? '60px' : '120px';
-      ctx.font = `bold ${fontSize} "Arial Black", Arial, sans-serif`;
-      
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      
-      ctx.shadowColor = 'rgba(0, 255, 0, 0.2)';
-      ctx.shadowBlur = 15;
-      
-      const centerX = canvas.width / 2;
-      const centerY = canvas.height / 2;
-      
-      ctx.fillText('HIROKIT', centerX, centerY);
-      ctx.restore();
-    }
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      drawCenterLogo();
-
-      ctx.fillStyle = '#0F0';
-      ctx.font = fontSize + 'px monospace';
-
-      for (let i = 0; i < drops.length; i++) {
-        if (i % 5 !== 0) continue;
-        const text = chars[Math.floor(Math.random() * chars.length)];
-        const x = i * fontSize;
-        ctx.fillText(text, x, drops[i] * fontSize);
-
-        if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 50);
-
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimeout);
-      resizeTimeout = setTimeout(() => {
-        resizeCanvas();
-        drops.length = Math.floor(canvas.width / fontSize);
-        drops.fill(1);
-      }, 100);
-    });
+    initMatrix();
+    // drawCenterLogoなどの固有の機能は残す
   </script>
 </body>
 </html>

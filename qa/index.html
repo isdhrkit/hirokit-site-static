@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Q&A - HIROKIT</title>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="/js/matrix.js"></script>
     <style>
         body {
             font-family: monospace;
@@ -228,49 +229,7 @@
     </div>
 
     <script>
-        // Matrix animation code (same as index.html)
-        const canvas = document.getElementById('matrix');
-        const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        resizeCanvas();
-
-        const chars = "01".split("");
-        const fontSize = 14;
-        const columns = Math.floor(canvas.width / fontSize);
-        const drops = new Array(columns).fill(1);
-
-        function draw() {
-            ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#0F0';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                if (i % 5 !== 0) continue;
-                const text = chars[Math.floor(Math.random() * chars.length)];
-                const x = i * fontSize;
-                ctx.fillText(text, x, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(draw, 50);
-
-        window.addEventListener('resize', () => {
-            resizeCanvas();
-            drops.length = Math.floor(canvas.width / fontSize);
-            drops.fill(1);
-        });
-
+        initMatrix();
         // Chat functionality
         const chatMessages = document.getElementById('chatMessages');
         const chatInput = document.getElementById('chatInput');
