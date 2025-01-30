@@ -120,13 +120,31 @@
             border-radius: 5px;
             display: none;
         }
+
+        .loading {
+            position: relative;
+            z-index: 2;
+            color: #0F0;
+            text-align: center;
+            font-size: 1.2em;
+            text-shadow: 0 0 5px #0F0;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border: 2px solid #0F0;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.3);
+        }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <canvas id="matrix"></canvas>
     <a href="/" class="home-link">ホームに戻る</a>
 
-    <div class="login-container">
+    <div id="loginContainer" class="login-container hidden">
         <h1>ログイン</h1>
         <div id="errorMessage" class="error-message"></div>
         <form onsubmit="return handleLogin(event)">
@@ -143,20 +161,23 @@
     </div>
 
     <script>
-        // ページ読み込み時に認証チェックを実行
         window.addEventListener('DOMContentLoaded', async () => {
+            const loginContainer = document.getElementById('loginContainer');
+
             try {
                 const response = await fetch('https://api.hirokit.jp/auth/check', {
                     credentials: 'include'
                 });
                 if (response.ok) {
-                    // 既に認証済みの場合は、secretページにリダイレクト
                     window.location.href = '/secret';
                     return;
                 }
             } catch (error) {
                 console.error('認証チェックエラー:', error);
             }
+
+            // 認証チェックが完了したら、ログインフォームを表示
+            loginContainer.classList.remove('hidden');
 
             // 以下は既存のコード
             const canvas = document.getElementById('matrix');
