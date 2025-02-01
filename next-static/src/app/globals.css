@@ -402,3 +402,39 @@ html {
   80% { transform: translate(3%, 35%) }
   90% { transform: translate(-10%, 10%) }
 }
+
+/* 404ページのスタイル */
+.not-found h1 {
+  @apply text-[120px] mb-5;
+  text-shadow: 0 0 10px #0F0;
+}
+
+.not-found p {
+  @apply text-2xl mb-8;
+  text-shadow: 0 0 5px #0F0;
+}
+
+/* 404ページのレスポンシブ対応 */
+@media (max-width: 768px) {
+  .not-found h1 {
+    @apply text-[80px];
+  }
+
+  .not-found p {
+    @apply text-xl;
+  }
+}
+
+@media (max-width: 480px) {
+  .not-found h1 {
+    @apply text-[60px];
+  }
+
+  .not-found p {
+    @apply text-lg;
+  }
+
+  .not-found .content {
+    @apply p-5;
+  }
+}
