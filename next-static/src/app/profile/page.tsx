@@ -1,10 +1,34 @@
 "use client";
 
+import { useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import MatrixBackground from '@/components/MatrixBackground';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export default function ProfilePage() {
+  const router = useRouter();
+
+  const checkAuth = useCallback(async () => {
+    try {
+      const response = await fetch('https://api.hirokit.jp/auth/check', {
+        credentials: 'include'
+      });
+      if (response.ok) {
+        router.push('/secret');
+        return;
+      }
+      router.push('/login');
+    } catch (error) {
+      console.error('認証チェックエラー:', error);
+      router.push('/login');
+    }
+  }, [router]);
+
+  const handleProfileClick = () => {
+    checkAuth();
+  };
+
   return (
     <main>
       <MatrixBackground />
@@ -14,9 +38,9 @@ export default function ProfilePage() {
       
       <div className="content">
         <div className="profile-board">
-          <Link href="/login" className="profile-image">
+          <div className="profile-image" onClick={handleProfileClick} style={{ cursor: 'pointer' }}>
             <Image src="/images/profile.svg" alt="Profile" width={120} height={120} />
-          </Link>
+          </div>
           <h1>HIROKIT</h1>
           <div className="profile-content">
             <div className="status-section">
