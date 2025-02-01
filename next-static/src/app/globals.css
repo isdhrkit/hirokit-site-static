@@ -438,3 +438,41 @@ html {
     @apply p-5;
   }
 }
+
+/* ログインページのスタイル */
+.login-container {
+  @apply bg-black/80 p-8 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] w-[min(90%,400px)];
+}
+
+.form-group {
+  @apply mb-5;
+}
+
+.form-group label {
+  @apply block mb-2;
+  text-shadow: 0 0 3px #0F0;
+}
+
+.form-group input {
+  @apply w-full p-2.5 bg-black/50 border border-[#0F0] rounded text-[#0F0] font-mono;
+}
+
+.form-group input:focus {
+  @apply outline-none shadow-[0_0_10px_rgba(0,255,0,0.5)];
+}
+
+.login-container button {
+  @apply w-full py-3 bg-transparent text-[#0F0] border-2 border-[#0F0] rounded cursor-pointer 
+         font-mono text-lg transition-all duration-300 mt-2.5
+         hover:bg-[#0F0] hover:text-black hover:shadow-[0_0_20px_#0F0];
+}
+
+.error-message {
+  @apply text-[#ff0000] bg-[rgba(255,0,0,0.1)] border border-[#ff0000] p-2.5 mb-5 rounded;
+}
+
+.loading {
+  @apply relative z-[2] text-[#0F0] text-center text-lg bg-black/80 p-5 
+         border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)];
+  text-shadow: 0 0 5px #0F0;
+}
