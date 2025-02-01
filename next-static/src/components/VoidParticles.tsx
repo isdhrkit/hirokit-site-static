@@ -12,7 +12,6 @@ const VoidParticles = () => {
       particle.className = 'particle';
       
       const startX = Math.random() * window.innerWidth;
-      const startY = window.innerHeight + Math.random() * window.innerHeight * 0.5;
       const size = 1 + Math.random() * 2;
       const duration = 8 + Math.random() * 7;
       const moveX = -150 + Math.random() * 300;

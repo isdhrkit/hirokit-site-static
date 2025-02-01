@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import MatrixBackground from '@/components/MatrixBackground';
 import Link from 'next/link';
 import { marked } from 'marked';
@@ -21,7 +21,7 @@ export default function QAPage() {
     });
   };
 
-  const addMessage = (text: string, className: string) => {
+  const addMessage = useCallback((text: string, className: string) => {
     if (!chatMessagesRef.current) return;
 
     const messageDiv = document.createElement('div');
@@ -50,9 +50,9 @@ export default function QAPage() {
       const firstKey = messageCacheRef.current.keys().next().value;
       messageCacheRef.current.delete(firstKey);
     }
-  };
+  }, []);
 
-  const sendMessage = async () => {
+  const sendMessage = useCallback(async () => {
     if (!chatInputRef.current) return;
     const message = chatInputRef.current.value.trim();
     if (!message) return;
@@ -83,38 +83,34 @@ export default function QAPage() {
       loadingDiv.remove();
       addMessage(data.response, 'ai-message');
       chatHistoryRef.current.push({ role: "assistant", content: data.response });
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       loadingDiv.remove();
       addMessage('申し訳ありません。エラーが発生しました。', 'ai-message');
     }
-  };
+  }, [addMessage]);
 
   useEffect(() => {
     marked.setOptions({
       renderer: new marked.Renderer(),
-      highlight: function(code, lang) {
-        return code;
-      },
       pedantic: false,
       gfm: true,
-      breaks: true,
-      sanitize: false,
-      smartypants: false,
-      xhtml: false
+      breaks: true
     });
 
+    const inputElement = chatInputRef.current;
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (e.key === 'Enter' && chatInputRef.current) {
+      if (e.key === 'Enter') {
         sendMessage();
       }
     };
 
-    chatInputRef.current?.addEventListener('keypress', handleKeyPress);
+    inputElement?.addEventListener('keypress', handleKeyPress);
 
     return () => {
-      chatInputRef.current?.removeEventListener('keypress', handleKeyPress);
+      inputElement?.removeEventListener('keypress', handleKeyPress);
     };
-  }, []);
+  }, [sendMessage]);
 
   return (
     <main>
