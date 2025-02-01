@@ -4,28 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Q&A - HIROKIT</title>
+    <link rel="stylesheet" href="/global.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="/js/matrix.js"></script>
     <style>
-        body {
-            font-family: monospace;
-            margin: 0;
-            background: black;
-            color: #0F0;
-            min-height: 100vh;
-            overflow: hidden;
-        }
-
-        canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            opacity: 0.5;
-        }
-
         .chat-container {
             position: relative;
             z-index: 2;
@@ -147,7 +129,7 @@
             font-family: monospace;
         }
 
-        .send-button {
+        .button {
             padding: 10px 20px;
             background: transparent;
             color: #0F0;
@@ -157,7 +139,7 @@
             transition: all 0.3s ease;
         }
 
-        .send-button:hover {
+        .button:hover {
             background: #0F0;
             color: black;
         }
@@ -224,7 +206,7 @@
         </div>
         <div class="input-container">
             <input type="text" class="chat-input" id="chatInput" placeholder="メッセージを入力...">
-            <button class="send-button" onclick="sendMessage()">送信</button>
+            <button class="button" onclick="sendMessage()">送信</button>
         </div>
     </div>
 
