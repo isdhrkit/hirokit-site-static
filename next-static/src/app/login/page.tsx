@@ -7,7 +7,6 @@ import MatrixBackground from '@/components/MatrixBackground';
 
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('');
-  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -21,12 +20,10 @@ export default function LoginPage() {
       });
       if (response.ok) {
         router.push('/secret');
-        return;
       }
     } catch (error) {
       console.error('認証チェックエラー:', error);
     }
-    setIsLoading(false);
   };
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -60,17 +57,6 @@ export default function LoginPage() {
       setErrorMessage('エラーが発生しました。もう一度お試しください。');
     }
   };
-
-  if (isLoading) {
-    return (
-      <main className="min-h-screen bg-black font-mono text-[#0F0] overflow-hidden">
-        <MatrixBackground />
-        <div className="relative z-[2] min-h-screen flex justify-center items-center">
-          <div className="loading">認証状態を確認中...</div>
-        </div>
-      </main>
-    );
-  }
 
   return (
     <main className="min-h-screen bg-black font-mono text-[#0F0] overflow-hidden">
