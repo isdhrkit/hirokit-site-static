@@ -12,7 +12,22 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      textShadow: {
+        'glow': '0 0 5px #0F0',
+        'glow-lg': '0 0 10px #0F0',
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ matchUtilities, theme }) {
+      matchUtilities(
+        {
+          'text-shadow': (value) => ({
+            textShadow: value,
+          }),
+        },
+        { values: theme('textShadow') }
+      )
+    },
+  ],
 } satisfies Config;

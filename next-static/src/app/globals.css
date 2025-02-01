@@ -167,3 +167,73 @@ body {
 .home-button:hover {
   @apply bg-[#0F0] text-black shadow-[0_0_20px_#0F0];
 }
+
+/* ルーレットページのスタイル */
+.roulette-container {
+  @apply text-center p-5 bg-black/80 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] z-[2] w-[min(90%,600px)] m-5;
+}
+
+/* h1のスタイルを修正 */
+.roulette-container > h1 {
+  @apply text-2xl mb-8;
+  text-shadow: 0 0 5px #0F0;
+}
+
+.warning {
+  @apply text-[#F00] text-sm mb-5 text-left border border-[#F00] p-2.5 rounded bg-[rgba(255,0,0,0.1)];
+}
+
+.warning p {
+  @apply my-1;
+}
+
+.result {
+  @apply text-2xl my-5 p-5 rounded-lg min-w-[200px] border-2 border-[#0F0] transition-all duration-300;
+  text-shadow: 0 0 5px #0F0;
+}
+
+.yes {
+  @apply bg-[rgba(0,255,0,0.2)] border-[#0F0] shadow-[0_0_20px_#0F0];
+}
+
+.no {
+  @apply bg-[rgba(255,0,0,0.2)] border-[#F00] text-[#F00] shadow-[0_0_20px_#F00];
+  text-shadow: 0 0 5px #F00;
+}
+
+.roulette-container button {
+  @apply p-[10px_20px] text-lg bg-black/80 text-[#0F0] border-2 border-[#0F0] rounded cursor-pointer font-mono 
+         transition-all duration-300 shadow-[0_0_15px_rgba(0,255,0,0.3)]
+         hover:bg-[#0F0] hover:text-black hover:shadow-[0_0_20px_#0F0];
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .roulette-container {
+    @apply w-[calc(100%-40px)] box-border;
+  }
+
+  /* h1のレスポンシブスタイルも修正 */
+  .roulette-container > h1 {
+    @apply text-xl mb-5;
+  }
+
+  .result {
+    @apply text-lg p-4 min-w-[150px];
+  }
+
+  .roulette-container button {
+    @apply w-full mt-5;
+  }
+}
+
+/* 小さい画面用の追加調整 */
+@media (max-width: 480px) {
+  .roulette-container > h1 {
+    @apply text-base;
+  }
+
+  .result {
+    @apply text-base p-2.5;
+  }
+}
