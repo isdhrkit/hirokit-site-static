@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useLayoutEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import MatrixBackground from '@/components/MatrixBackground';
 
 export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   const checkAuth = useCallback(async () => {
@@ -19,10 +20,12 @@ export default function LoginPage() {
       }
     } catch (error) {
       console.error('認証チェックエラー:', error);
+    } finally {
+      setLoading(false);
     }
   }, [router]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
@@ -66,22 +69,24 @@ export default function LoginPage() {
       </Link>
 
       <div className="relative z-[2] min-h-screen flex justify-center items-center">
-        <div className="login-container">
-          {errorMessage && (
-            <div className="error-message">{errorMessage}</div>
-          )}
-          <form onSubmit={handleLogin}>
-            <div className="form-group">
-              <label htmlFor="username">ユーザー名</label>
-              <input type="text" id="username" name="username" required />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">パスワード</label>
-              <input type="password" id="password" name="password" required />
-            </div>
-            <button type="submit">ログイン</button>
-          </form>
-        </div>
+        {!loading && (
+          <div className="login-container">
+            {errorMessage && (
+              <div className="error-message">{errorMessage}</div>
+            )}
+            <form onSubmit={handleLogin}>
+              <div className="form-group">
+                <label htmlFor="username">ユーザー名</label>
+                <input type="text" id="username" name="username" required />
+              </div>
+              <div className="form-group">
+                <label htmlFor="password">パスワード</label>
+                <input type="password" id="password" name="password" required />
+              </div>
+              <button type="submit">ログイン</button>
+            </form>
+          </div>
+        )}
       </div>
     </main>
   );
