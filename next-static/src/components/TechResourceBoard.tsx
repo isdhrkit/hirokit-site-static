@@ -37,9 +37,9 @@ interface TechSite {
   
     return (
       <div className="max-w-4xl mx-auto p-6 mt-16 md:mt-16 mt-8">
-        <h1 className="text-3xl font-bold mb-6 text-center text-[#0F0] text-shadow-glow">ITトレンド情報サイト</h1>
+        <h1 className="text-3xl font-bold mb-3 text-center text-[#0F0] text-shadow-glow">ITトレンド情報サイト</h1>
         
-        <div className="bg-black/80 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] p-6 overflow-y-auto max-h-[calc(100vh-12rem)]">
+        <div className="bg-black/80 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] p-6 overflow-y-auto max-h-[calc(100vh-13rem)]">
           {categories.map(category => (
             <div key={category} className="mb-8 last:mb-0">
               <h2 className="text-2xl font-semibold mb-4 text-[#0F0] border-b border-[#0F0] pb-2">
