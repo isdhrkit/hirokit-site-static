@@ -68,23 +68,40 @@ export default function LoginPage() {
         ホームに戻る
       </Link>
 
-      <div className="relative z-[2] min-h-screen flex justify-center items-center">
+      <div className="relative z-[2] min-h-screen flex justify-center items-center p-4">
         <div suppressHydrationWarning>
           {!loading && (
-            <div className="login-container">
+            <div className="login-container bg-black/80 p-8 border border-[#0F0] rounded-lg w-full max-w-[500px] mx-auto">
               {errorMessage && (
-                <div className="error-message">{errorMessage}</div>
+                <div className="error-message text-red-500 mb-6 text-center">{errorMessage}</div>
               )}
               <form onSubmit={handleLogin}>
-                <div className="form-group">
-                  <label htmlFor="username">ユーザー名</label>
-                  <input type="text" id="username" name="username" required />
+                <div className="form-group mb-6">
+                  <label htmlFor="username" className="block mb-3">ユーザー名</label>
+                  <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required 
+                    className="w-full p-3 bg-black border border-[#0F0] text-[#0F0] outline-none focus:border-[#0F0] focus:shadow-[0_0_5px_rgba(0,255,0,0.5)]"
+                  />
                 </div>
-                <div className="form-group">
-                  <label htmlFor="password">パスワード</label>
-                  <input type="password" id="password" name="password" required />
+                <div className="form-group mb-6">
+                  <label htmlFor="password" className="block mb-3">パスワード</label>
+                  <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    className="w-full p-3 bg-black border border-[#0F0] text-[#0F0] outline-none focus:border-[#0F0] focus:shadow-[0_0_5px_rgba(0,255,0,0.5)]"
+                  />
                 </div>
-                <button type="submit">ログイン</button>
+                <button 
+                  type="submit"
+                  className="w-full py-4 bg-black border border-[#0F0] text-[#0F0] cursor-pointer transition-all duration-300 hover:bg-[#0F0] hover:text-black"
+                >
+                  ログイン
+                </button>
               </form>
             </div>
           )}
