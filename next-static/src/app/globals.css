@@ -113,3 +113,57 @@ body {
     @apply relative left-auto top-auto mx-auto my-5 w-[min(300px,80%)];
   }
 }
+
+/* プロフィールページのスタイル */
+.content {
+  @apply relative z-[1] flex justify-center items-center min-h-screen p-8;
+}
+
+.profile-board {
+  @apply bg-black/80 border-2 border-[#0F0] rounded-lg p-8 text-[#0F0] shadow-[0_0_15px_rgba(0,255,0,0.3)] w-[min(600px,100%)];
+}
+
+.profile-board h1 {
+  @apply text-3xl text-center mt-4 mb-6;
+  text-shadow: 0 0 10px #0F0;
+}
+
+.profile-content {
+  @apply mt-8;
+}
+
+.profile-content h2 {
+  @apply text-lg mb-4 pb-1 border-b border-[#0F0];
+}
+
+.status-item {
+  @apply my-2.5 flex gap-2.5;
+}
+
+.status-item .label {
+  @apply min-w-[100px] text-[#0F0] opacity-80;
+}
+
+.about-section {
+  @apply mt-8;
+}
+
+.about-section p {
+  @apply leading-relaxed;
+}
+
+/* レスポンシブデザイン */
+@media (max-width: 768px) {
+  .profile-board {
+    @apply w-full mt-8;
+  }
+}
+
+/* ホームボタン */
+.home-button {
+  @apply fixed top-5 left-5 px-5 py-2.5 bg-black/80 text-[#0F0] no-underline border-2 border-[#0F0] rounded z-[10] font-mono transition-all duration-300 shadow-[0_0_15px_rgba(0,255,0,0.3)];
+}
+
+.home-button:hover {
+  @apply bg-[#0F0] text-black shadow-[0_0_20px_#0F0];
+}
