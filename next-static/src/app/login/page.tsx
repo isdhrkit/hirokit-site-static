@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useLayoutEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import MatrixBackground from '@/components/MatrixBackground';
@@ -25,7 +25,7 @@ export default function LoginPage() {
     }
   }, [router]);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
@@ -69,24 +69,26 @@ export default function LoginPage() {
       </Link>
 
       <div className="relative z-[2] min-h-screen flex justify-center items-center">
-        {!loading && (
-          <div className="login-container">
-            {errorMessage && (
-              <div className="error-message">{errorMessage}</div>
-            )}
-            <form onSubmit={handleLogin}>
-              <div className="form-group">
-                <label htmlFor="username">ユーザー名</label>
-                <input type="text" id="username" name="username" required />
-              </div>
-              <div className="form-group">
-                <label htmlFor="password">パスワード</label>
-                <input type="password" id="password" name="password" required />
-              </div>
-              <button type="submit">ログイン</button>
-            </form>
-          </div>
-        )}
+        <div suppressHydrationWarning>
+          {!loading && (
+            <div className="login-container">
+              {errorMessage && (
+                <div className="error-message">{errorMessage}</div>
+              )}
+              <form onSubmit={handleLogin}>
+                <div className="form-group">
+                  <label htmlFor="username">ユーザー名</label>
+                  <input type="text" id="username" name="username" required />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="password">パスワード</label>
+                  <input type="password" id="password" name="password" required />
+                </div>
+                <button type="submit">ログイン</button>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
     </main>
   );
