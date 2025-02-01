@@ -476,3 +476,14 @@ html {
          border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)];
   text-shadow: 0 0 5px #0F0;
 }
+
+.login-form-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.login-form-visible {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out;
+}
