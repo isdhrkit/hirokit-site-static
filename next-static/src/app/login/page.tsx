@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import MatrixBackground from '@/components/MatrixBackground';
@@ -9,11 +9,7 @@ export default function LoginPage() {
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
 
-  useEffect(() => {
-    checkAuth();
-  }, []);
-
-  const checkAuth = async () => {
+  const checkAuth = useCallback(async () => {
     try {
       const response = await fetch('https://api.hirokit.jp/auth/check', {
         credentials: 'include'
@@ -24,7 +20,11 @@ export default function LoginPage() {
     } catch (error) {
       console.error('認証チェックエラー:', error);
     }
-  };
+  }, [router]);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
