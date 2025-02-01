@@ -9,6 +9,9 @@ const SideMenu = () => {
       <Link href="/qa" className="menu-button">
         AI Q&A
       </Link>
+      <Link href="/tech-resources" className="menu-button">
+        技術情報
+      </Link>
     </nav>
   );
 };
