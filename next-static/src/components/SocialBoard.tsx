@@ -21,12 +21,12 @@ const SocialBoard = () => {
       </a>
       <a href="https://twitter.com/hirokit_0111" target="_blank" rel="noopener noreferrer" className="social-link">
         <Image
-          src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/twitter.svg"
-          alt="Twitter"
+          src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/x.svg"
+          alt="X (Twitter)"
           width={24}
           height={24}
         />
-        Twitter
+        X (旧Twitter)
       </a>
     </div>
   );
