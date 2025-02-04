@@ -11,6 +11,7 @@ interface YakuOption {
   name: string;
   han: number;
   closed?: boolean; // 門前限定の役の場合true
+  dealerOnly?: boolean; // 追加
 }
 
 const yakuList: YakuOption[] = [
@@ -58,7 +59,7 @@ const yakuList: YakuOption[] = [
   { name: "清一色", han: 6 },
 
   // 役満
-  { name: "天和", han: 13, closed: true },
+  { name: "天和", han: 13, closed: true, dealerOnly: true },
   { name: "地和", han: 13, closed: true },
   { name: "大三元", han: 13 },
   { name: "四暗刻", han: 13, closed: true },
@@ -189,30 +190,32 @@ const MahjongCalculator = () => {
             </label>
           </div>
 
-          <div className="form-group">
-            <label className="fu-label">符数</label>
-            <select 
-              value={fu}
-              onChange={(e) => setFu(Number(e.target.value))}
-              className="calculator-select"
-            >
-              {[20, 25, 30, 40, 50, 60, 70, 80, 90, 100].map(value => (
-                <option key={value} value={value}>{value}符</option>
-              ))}
-            </select>
-          </div>
+          <div className="select-container">
+            <div className="select-group">
+              <label className="fu-label">符数</label>
+              <select 
+                value={fu}
+                onChange={(e) => setFu(Number(e.target.value))}
+                className="calculator-select"
+              >
+                {[20, 25, 30, 40, 50, 60, 70, 80, 90, 100].map(value => (
+                  <option key={value} value={value}>{value}符</option>
+                ))}
+              </select>
+            </div>
 
-          <div className="form-group">
-            <label className="dora-label">ドラ数</label>
-            <select
-              value={doraCount}
-              onChange={(e) => setDoraCount(Number(e.target.value))}
-              className="calculator-select"
-            >
-              {[...Array(13)].map((_, i) => (
-                <option key={i} value={i}>{i}個</option>
-              ))}
-            </select>
+            <div className="select-group">
+              <label className="dora-label">ドラ数</label>
+              <select
+                value={doraCount}
+                onChange={(e) => setDoraCount(Number(e.target.value))}
+                className="calculator-select"
+              >
+                {[...Array(13)].map((_, i) => (
+                  <option key={i} value={i}>{i}個</option>
+                ))}
+              </select>
+            </div>
           </div>
         </div>
 
@@ -223,14 +226,16 @@ const MahjongCalculator = () => {
               <label 
                 key={yaku.name}
                 className={`yaku-option ${
-                  (!isClosed && yaku.closed) ? 'disabled' : ''
+                  (!isClosed && yaku.closed) || 
+                  (yaku.dealerOnly && (!isDealer || !isClosed)) ? 'disabled' : ''
                 } ${selectedYaku.has(yaku.name) ? 'selected' : ''}`}
               >
                 <input
                   type="checkbox"
                   checked={selectedYaku.has(yaku.name)}
                   onChange={() => handleYakuToggle(yaku.name)}
-                  disabled={!isClosed && yaku.closed}
+                  disabled={(!isClosed && yaku.closed) || 
+                           (yaku.dealerOnly && (!isDealer || !isClosed))}
                   className="hidden"
                 />
                 <span className="yaku-name">{yaku.name}</span>
@@ -249,16 +254,18 @@ const MahjongCalculator = () => {
           </button>
 
           {result && (
-            <div className="result-display">
-              <button 
-                onClick={handleCloseResult}
-                className="close-button"
-                aria-label="結果を閉じる"
-              >
-                ×
-              </button>
-              <p className="text-xl">{result.description}</p>
-              <p className="text-3xl font-bold">{result.points.toLocaleString()}点</p>
+            <div className="result-overlay">
+              <div className="result-display">
+                <button 
+                  onClick={handleCloseResult}
+                  className="close-button"
+                  aria-label="結果を閉じる"
+                >
+                  ×
+                </button>
+                <p className="text-xl">{result.description}</p>
+                <p className="text-3xl font-bold">{result.points.toLocaleString()}点</p>
+              </div>
             </div>
           )}
         </div>
