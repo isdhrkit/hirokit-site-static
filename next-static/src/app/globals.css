@@ -161,7 +161,9 @@ body {
 
 /* ホームボタン */
 .home-button {
-  @apply fixed top-5 left-5 px-5 py-2.5 bg-black/80 text-[#0F0] no-underline border-2 border-[#0F0] rounded z-[10] font-mono transition-all duration-300 shadow-[0_0_15px_rgba(0,255,0,0.3)];
+  @apply fixed top-5 left-5 px-5 py-2.5 bg-black/80 text-[#0F0] no-underline 
+         border-2 border-[#0F0] rounded z-[20] font-mono transition-all duration-300 
+         shadow-[0_0_15px_rgba(0,255,0,0.3)];
 }
 
 .home-button:hover {
@@ -623,5 +625,167 @@ html {
   
   .dot.bottom-left, .dot.bottom-right {
     @apply bottom-1.5;
+  }
+}
+
+/* 麻雀計算機のスタイル */
+.mahjong-calculator {
+  @apply bg-black/80 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] 
+         w-[min(90%,500px)] mt-[80px] overflow-hidden;
+  height: calc(100vh - 120px);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ヘッダー（タイトル） */
+.mahjong-calculator h1 {
+  @apply text-xl text-center text-[#0F0] py-0.5 mb-0
+         bg-black border-b border-[#0F0] leading-none;
+  height: 63px; /* 60pxから63pxに変更 */
+  line-height: 63px;
+}
+
+/* 基本設定エリア */
+.basic-settings {
+  @apply px-8 bg-black border-b border-[#0F0] pt-4; /* pt-3からpt-4に変更 */
+}
+
+.basic-settings .form-group:not(:last-child) {
+  @apply mb-2;
+}
+
+/* チェックボックスのコンテナ */
+.checkbox-container {
+  @apply flex flex-row gap-6 items-center mb-2 mt-0;
+}
+
+/* チェックボックスグループ */
+.checkbox-group {
+  @apply flex items-center gap-2;
+}
+
+/* 符数のラベル */
+.fu-label,
+.dora-label {
+  @apply block mb-1;
+}
+
+/* フォーム要素のスタイル */
+.form-group {
+  @apply flex flex-col gap-2;
+}
+
+.calculator-select {
+  @apply w-full p-2 bg-black border border-[#0F0] text-[#0F0] rounded outline-none;
+}
+
+.calculator-checkbox {
+  @apply w-5 h-5 border-2 border-[#0F0] bg-black checked:bg-[#0F0] checked:border-[#0F0] rounded;
+}
+
+/* メインコンテンツエリア */
+.calculator-form {
+  @apply flex flex-col min-h-0 flex-1;
+}
+
+/* 役選択エリア */
+.yaku-selection {
+  @apply px-8 py-3 overflow-y-auto min-h-0 flex-1;
+}
+
+/* 役選択のタイトル */
+.yaku-selection h2 {
+  @apply text-lg mb-3 mt-1;
+}
+
+/* 役選択のグリッド */
+.yaku-grid {
+  @apply grid grid-cols-2 md:grid-cols-3 gap-3;
+}
+
+.yaku-option {
+  @apply flex justify-between items-center p-2.5 border border-[#0F0] rounded cursor-pointer
+         transition-all duration-300 hover:bg-[rgba(0,255,0,0.1)];
+  min-height: 2.5rem;
+}
+
+.yaku-option.selected {
+  @apply bg-[rgba(0,255,0,0.2)] shadow-[0_0_10px_rgba(0,255,0,0.3)];
+}
+
+.yaku-option.disabled {
+  @apply opacity-50 cursor-not-allowed hover:bg-transparent;
+}
+
+.yaku-name {
+  @apply text-sm;
+}
+
+.yaku-han {
+  @apply text-sm text-[rgba(0,255,0,0.8)];
+}
+
+/* フッターと計算ボタン */
+.calculator-footer {
+  @apply py-3 px-8 bg-black border-t border-[#0F0];
+}
+
+.calculator-button {
+  @apply w-full py-3 bg-transparent text-[#0F0] rounded cursor-pointer 
+         font-mono text-lg transition-all duration-300
+         hover:bg-[#0F0] hover:text-black hover:shadow-[0_0_20px_#0F0];
+}
+
+.result-display {
+  @apply mt-4 p-4 border-2 border-[#0F0] rounded-lg bg-[rgba(0,255,0,0.1)] text-center space-y-2 relative;
+}
+
+/* 閉じるボタンのスタイル */
+.close-button {
+  @apply absolute top-2 right-2 w-6 h-6 flex items-center justify-center
+         text-[#0F0] border border-[#0F0] rounded-full bg-black/50
+         hover:bg-[#0F0] hover:text-black transition-all duration-300
+         text-lg leading-none font-bold;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 640px) {
+  .mahjong-calculator {
+    @apply mt-[60px];
+    height: calc(100vh - 100px);
+  }
+
+  .basic-settings,
+  .calculator-footer {
+    @apply px-4 py-0 pt-1;
+  }
+
+  .yaku-grid {
+    @apply grid-cols-1 gap-2;
+  }
+
+  .result-display {
+    @apply mt-3 p-3;
+  }
+  
+  .close-button {
+    @apply w-5 h-5 text-base;
+  }
+
+  .yaku-selection {
+    @apply px-4 py-2;
+  }
+
+  .yaku-selection h2 {
+    @apply mt-2 mb-2;
+  }
+
+  .mahjong-calculator h1 {
+    height: 50px; /* 48pxから50pxに変更 */
+    line-height: 50px;
+  }
+
+  .basic-settings {
+    @apply top-[50px] pt-3; /* pt-2からpt-3に変更 */
   }
 }

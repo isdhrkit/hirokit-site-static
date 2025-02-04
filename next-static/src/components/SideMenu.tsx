@@ -15,6 +15,9 @@ const SideMenu = () => {
       <Link href="/chinchillo" className="menu-button">
         チンチロ
       </Link>
+      <Link href="/mahjong" className="menu-button">
+        麻雀点数計算
+      </Link>
     </nav>
   );
 };
