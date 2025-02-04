@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 interface DiceResult {
   values: number[];
@@ -7,7 +7,6 @@ interface DiceResult {
 }
 
 const DiceDots = ({ value }: { value: number }) => {
-  const dots = Array(value).fill(0);
   return (
     <div className="dice-dots">
       {value === 1 && (
