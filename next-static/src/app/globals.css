@@ -497,3 +497,131 @@ html {
     @apply text-blue-600 hover:text-blue-800 transition-colors;
   }
 }
+
+/* チンチロページのスタイル */
+.chinchiro-container {
+  @apply text-center p-5 bg-black/80 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)] z-[2] w-[min(90%,600px)] m-5;
+}
+
+.chinchiro-container h1 {
+  @apply text-2xl mb-8;
+  text-shadow: 0 0 5px #0F0;
+}
+
+.dice-container {
+  @apply flex justify-center gap-4 mb-8;
+}
+
+.dice {
+  @apply w-16 h-16 flex items-center justify-center text-2xl 
+         bg-black border-2 border-[#0F0] rounded-lg shadow-[0_0_10px_rgba(0,255,0,0.3)]
+         transition-all duration-300;
+}
+
+.result {
+  @apply mb-8 p-6 border-2 rounded-lg transition-all duration-300 min-w-[200px];
+}
+
+.result-type {
+  @apply text-2xl font-bold;
+  text-shadow: 0 0 5px #0F0;
+}
+
+.result.win {
+  @apply border-[#0F0] bg-[rgba(0,255,0,0.1)] shadow-[0_0_15px_rgba(0,255,0,0.3)];
+}
+
+.result.lose {
+  @apply border-[#F00] bg-[rgba(255,0,0,0.1)] shadow-[0_0_15px_rgba(255,0,0,0.3)];
+}
+
+.result-score {
+  @apply text-lg opacity-80;
+}
+
+.chinchiro-container button {
+  @apply px-6 py-3 bg-transparent text-[#0F0] border-2 border-[#0F0] rounded cursor-pointer 
+         transition-all duration-300 hover:bg-[#0F0] hover:text-black hover:shadow-[0_0_20px_#0F0]
+         disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.chinchiro-container button.rolling {
+  @apply animate-pulse;
+}
+
+@media (max-width: 640px) {
+  .dice {
+    @apply w-12 h-12 text-xl;
+  }
+  
+  .chinchiro-container h1 {
+    @apply text-xl mb-6;
+  }
+  
+  .result {
+    @apply p-4 min-w-[150px];
+  }
+  
+  .result-type {
+    @apply text-xl;
+  }
+}
+
+/* サイコロのドットのスタイル */
+.dice-dots {
+  @apply relative w-full h-full;
+}
+
+.dot {
+  @apply absolute w-2.5 h-2.5 rounded-full bg-[#0F0] shadow-[0_0_5px_#0F0];
+}
+
+.dot.center {
+  @apply top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+.dot.top-left {
+  @apply top-2 left-2;
+}
+
+.dot.top-right {
+  @apply top-2 right-2;
+}
+
+.dot.middle-left {
+  @apply top-1/2 left-2 -translate-y-1/2;
+}
+
+.dot.middle-right {
+  @apply top-1/2 right-2 -translate-y-1/2;
+}
+
+.dot.bottom-left {
+  @apply bottom-2 left-2;
+}
+
+.dot.bottom-right {
+  @apply bottom-2 right-2;
+}
+
+@media (max-width: 640px) {
+  .dot {
+    @apply w-1.5 h-1.5;
+  }
+  
+  .dot.top-left, .dot.middle-left, .dot.bottom-left {
+    @apply left-1.5;
+  }
+  
+  .dot.top-right, .dot.middle-right, .dot.bottom-right {
+    @apply right-1.5;
+  }
+  
+  .dot.top-left, .dot.top-right {
+    @apply top-1.5;
+  }
+  
+  .dot.bottom-left, .dot.bottom-right {
+    @apply bottom-1.5;
+  }
+}

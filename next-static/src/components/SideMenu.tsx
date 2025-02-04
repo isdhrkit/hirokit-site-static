@@ -12,6 +12,9 @@ const SideMenu = () => {
       <Link href="/tech-resources" className="menu-button">
         技術情報
       </Link>
+      <Link href="/chinchillo" className="menu-button">
+        チンチロ
+      </Link>
     </nav>
   );
 };
