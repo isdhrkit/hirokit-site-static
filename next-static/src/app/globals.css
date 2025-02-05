@@ -742,11 +742,6 @@ html {
   @apply px-8 py-3 overflow-y-auto min-h-0 flex-1;
 }
 
-/* 役選択のタイトル */
-.yaku-selection h2 {
-  @apply text-lg mb-3 mt-1;
-}
-
 /* 役選択のグリッド */
 .yaku-grid {
   @apply grid grid-cols-2 md:grid-cols-3 gap-3;
@@ -811,5 +806,45 @@ html {
 @media (max-width: 640px) {
   .result-display {
     @apply w-[85%] p-4;
+  }
+}
+
+/* 役の説明ツールチップ */
+.yaku-tooltip {
+  @apply invisible opacity-0 fixed z-[100]
+         bg-black/95 border border-[#0F0] rounded text-sm p-2
+         text-left whitespace-pre-wrap transition-all duration-300
+         w-[280px];
+}
+
+/* 長押し時のスタイル */
+.yaku-option.showing-tooltip .yaku-tooltip {
+  @apply visible opacity-100;
+}
+
+/* グリッドの最上段の役のツールチップは下に表示 */
+.yaku-grid > :nth-child(-n+3) .yaku-tooltip {
+  bottom: auto;
+  top: calc(100% + 8px);
+}
+
+/* 右端の役のツールチップは左寄せ */
+.yaku-grid > :nth-child(3n) .yaku-tooltip {
+  left: auto;
+  right: 0;
+  transform: none;
+}
+
+/* 左端の役のツールチップは右寄せ */
+.yaku-grid > :nth-child(3n-2) .yaku-tooltip {
+  left: 0;
+  transform: none;
+}
+
+/* モバイル表示時の調整 */
+@media (max-width: 640px) {
+  .yaku-tooltip {
+    width: 240px;
+    font-size: 0.75rem;
   }
 }
