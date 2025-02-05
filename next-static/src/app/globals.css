@@ -24,7 +24,7 @@ body {
 }
 
 .social-board {
-  @apply fixed right-5 top-5 bg-black/80 border-2 border-[#0F0] rounded-lg p-5 text-[#0F0] z-[2] shadow-[0_0_15px_rgba(0,255,0,0.3)] w-[min(300px,calc(100%-80px))];
+  @apply fixed right-5 top-5 bg-black/80 border-2 border-[#0F0] rounded-lg p-5 text-[#0F0] z-[1] shadow-[0_0_15px_rgba(0,255,0,0.3)] w-[min(300px,calc(100%-80px))];
 }
 
 .profile-image {
@@ -110,7 +110,7 @@ body {
   }
 
   .side-menu {
-    @apply relative left-auto top-auto mx-auto my-5 w-[min(300px,80%)];
+    @apply fixed left-0 top-0 w-full h-full bg-black/95 transform -translate-x-full transition-transform duration-300 ease-in-out p-20 pt-24 z-[2];
   }
 }
 
@@ -846,5 +846,61 @@ html {
   .yaku-tooltip {
     width: 240px;
     font-size: 0.75rem;
+  }
+}
+
+/* ハンバーガーメニューのスタイル */
+.hamburger-button {
+  @apply hidden fixed top-5 left-5 z-[3] p-2 bg-black/80 border-2 border-[#0F0] rounded cursor-pointer;
+}
+
+.hamburger-icon {
+  @apply w-6 h-5 relative;
+}
+
+.hamburger-icon span {
+  @apply absolute left-0 w-full h-0.5 bg-[#0F0] transition-all duration-300;
+}
+
+.hamburger-icon span:first-child {
+  @apply top-0;
+}
+
+.hamburger-icon span:nth-child(2) {
+  @apply top-1/2 -translate-y-1/2;
+}
+
+.hamburger-icon span:last-child {
+  @apply bottom-0;
+}
+
+/* メニューが開いているときのアイコン */
+.hamburger-icon.open span:first-child {
+  @apply top-1/2 -translate-y-1/2 rotate-45;
+}
+
+.hamburger-icon.open span:nth-child(2) {
+  @apply opacity-0;
+}
+
+.hamburger-icon.open span:last-child {
+  @apply top-1/2 -translate-y-1/2 -rotate-45;
+}
+
+@media (max-width: 768px) {
+  .hamburger-button {
+    @apply block;
+  }
+
+  .side-menu {
+    @apply fixed left-0 top-0 w-full h-full bg-black/95 transform -translate-x-full transition-transform duration-300 ease-in-out p-20 pt-24 z-[2];
+  }
+
+  .side-menu.open {
+    @apply translate-x-0;
+  }
+
+  .menu-button {
+    @apply w-full;
   }
 }
