@@ -10,7 +10,7 @@ interface FeatureRequest {
   requesterEmail?: string;
 }
 
-export default function FeatureRequestPage() {
+const FeatureRequestPage = () => {
   const [formData, setFormData] = useState<FeatureRequest>({
     title: '',
     description: '',
@@ -64,18 +64,21 @@ export default function FeatureRequestPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black font-mono text-[#0F0]">
+    <main className="min-h-screen bg-black font-mono text-[#0F0] overflow-y-auto">
       <MatrixBackground />
-      <Link href="/" className="home-button">
+      <Link 
+        href="/"
+        className="fixed top-4 left-4 border-2 border-[#0F0] text-[#0F0] px-4 py-2 rounded hover:bg-[#0F0] hover:text-black transition-colors z-10"
+      >
         ホームに戻る
       </Link>
-
-      <div className="relative z-[2] min-h-screen flex justify-center items-center p-4">
-        <div className="w-full max-w-[600px] bg-black/80 p-8 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)]">
-          <h1 className="text-2xl mb-6 text-center">機能要望フォーム</h1>
+      
+      <div className="relative z-[2] p-4 pt-24 pb-4 max-w-[600px] mx-auto">
+        <div className="bg-black/80 p-5 border-2 border-[#0F0] rounded-lg shadow-[0_0_15px_rgba(0,255,0,0.3)]">
+          <h1 className="text-xl mb-3 text-center">機能要望フォーム</h1>
           
           {message && (
-            <div className={`p-4 mb-6 rounded-lg border ${
+            <div className={`p-3 mb-4 rounded-lg border ${
               message.isError 
                 ? 'border-red-500 bg-red-500/10 text-red-500' 
                 : 'border-[#0F0] bg-[#0F0]/10'
@@ -84,12 +87,12 @@ export default function FeatureRequestPage() {
             </div>
           )}
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-6">
-              <label htmlFor="title" className="block mb-2">
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <div>
+              <label className="block mb-2">
                 タイトル <span className="text-red-500">*</span>
               </label>
-              <input
+              <input 
                 type="text"
                 id="title"
                 name="title"
@@ -100,26 +103,26 @@ export default function FeatureRequestPage() {
               />
             </div>
 
-            <div className="mb-6">
-              <label htmlFor="description" className="block mb-2">
+            <div>
+              <label className="block mb-2">
                 詳細な説明 <span className="text-red-500">*</span>
               </label>
-              <textarea
+              <textarea 
                 id="description"
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
                 required
-                rows={5}
+                rows={4}
                 className="w-full p-3 bg-black border border-[#0F0] text-[#0F0] rounded outline-none focus:border-[#0F0] focus:shadow-[0_0_5px_rgba(0,255,0,0.5)]"
               />
             </div>
 
-            <div className="mb-6">
-              <label htmlFor="requesterEmail" className="block mb-2">
+            <div>
+              <label className="block mb-2">
                 メールアドレス（任意）
               </label>
-              <input
+              <input 
                 type="email"
                 id="requesterEmail"
                 name="requesterEmail"
@@ -129,10 +132,10 @@ export default function FeatureRequestPage() {
               />
             </div>
 
-            <button
+            <button 
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-4 bg-transparent border-2 border-[#0F0] text-[#0F0] rounded cursor-pointer transition-all duration-300 
+              className={`w-full py-3 bg-transparent border-2 border-[#0F0] text-[#0F0] rounded cursor-pointer transition-all duration-300 
                 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#0F0] hover:text-black hover:shadow-[0_0_20px_#0F0]'}`}
             >
               {isSubmitting ? '送信中...' : '送信する'}
@@ -142,4 +145,6 @@ export default function FeatureRequestPage() {
       </div>
     </main>
   );
-} 
+};
+
+export default FeatureRequestPage; 
